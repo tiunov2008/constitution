@@ -1,6 +1,16 @@
 <!--
 Sync Impact Report (newest first; one block per version, older blocks are kept)
 
+## 1.0.1 (2026-10-04, PATCH, owner command)
+- Version: 1.0.0 -> 1.0.1
+- Rules touched: CORE-02 and CORE-03 state that an addendum may mark its own rules NON-NEGOTIABLE
+  (CORE-03 read as a closed list CORE-10 to CORE-13); template plan-constitution-check lists
+  addendum NON-NEGOTIABLE rules too; template project-constitution explains the title marker
+- Also: line wrapping fixed in DOKPLOY-06 (no change in meaning)
+- Reason: finam_trader pilot keeps "no look-ahead" and its TZ phase discipline uncrossable
+- Projects to update: finam_trader pins v1.0.1
+- Follow-ups: none
+
 ## 1.0.0 (ratified by the owner on 2026-10-04)
 - Version: none -> 1.0.0 (initial release)
 - Scope: core.md and modules ts, python, go, flutter, jobs, dokploy, llm; templates project-constitution
@@ -68,7 +78,8 @@ tightens it.
 
 - **MUST** (every bullet without another level): required. A deviation needs an exception (CORE-03).
 - **NON-NEGOTIABLE**: a rule whose MUST bullets admit no exception. It changes only by amendment
-  (CORE-04).
+  (CORE-04). The core's NON-NEGOTIABLE rules are CORE-10 to CORE-13. An addendum MAY mark its own
+  rules NON-NEGOTIABLE in their titles; they then have the same force.
 - **SHOULD** and **SHOULD NOT**: the default. A deviation is allowed when its reason is written down: in
   the plan's Constitution Check for one feature, or in the addendum for a standing deviation.
 - **MAY**: optional.
@@ -84,9 +95,10 @@ tightens it.
 - Work done without a plan records the same fields in the pull request description.
 - An owner instruction that contradicts a MUST is an exception request: the agent names the rule,
   records the exception and proceeds once the owner confirms it.
-- NON-NEGOTIABLE rules (CORE-10 to CORE-13) admit no exception. An instruction that would break one is
-  not carried out: the agent names the rule and offers the compliant way (for CORE-10, doing the work
-  and reporting it as not verified). The only way to change such a rule is an amendment.
+- NON-NEGOTIABLE rules (CORE-10 to CORE-13, and addendum rules marked so) admit no exception. An
+  instruction that would break one is not carried out: the agent names the rule and offers the
+  compliant way (for CORE-10, doing the work and reporting it as not verified). The only way to change
+  such a rule is an amendment.
 - Exceptions are temporary. Making one permanent requires an amendment.
 
 *Why*: an exception without an owner and an end becomes the new rule without anyone deciding it.
@@ -635,4 +647,4 @@ None.
 
 ---
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-04
+**Version**: 1.0.1 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-04

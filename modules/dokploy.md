@@ -71,9 +71,9 @@ SHOULD NOT or MAY is a MUST.
 - Automatic deploys go only to a test environment, and the owner sets them up (CORE-11). Dokploy's
   auto-deploy is off for the production environment when CI drives the releases.
 - A deploy has succeeded when the containers built from the expected commit (`COMMIT_SHA`) are
-  running, and healthy where the service has a health check, not when the Dokploy API returns 200. A verification script checks this, polling with a timeout, and runs in CI or is run
-  by the owner (CORE-82). Until a shared script exists in this repository's `scripts/`, the project
-  keeps its own.
+  running, and healthy where the service has a health check, not when the Dokploy API returns 200. A
+  verification script checks this, polling with a timeout, and runs in CI or is run by the owner
+  (CORE-82). Until a shared script exists in this repository's `scripts/`, the project keeps its own.
 - SHOULD: before deploying, read back the application's configured image and compare it with the
   intended one; an older pipeline never overwrites a newer deploy.
 - SHOULD: the health or readiness response reports the commit and the schema version, so that the

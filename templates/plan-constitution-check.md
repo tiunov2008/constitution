@@ -16,8 +16,8 @@ re-checked after Phase 1 design.*
 | CORE-43 | <what the project will need at promotion> | Deferred (production) |
 | DOKPLOY-06 | <no deploy in this feature> | Not applicable |
 
-List the NON-NEGOTIABLE rules (CORE-10 to CORE-13) and every core, module and addendum rule the feature
-touches. Rules the feature does not touch are left out.
+List the NON-NEGOTIABLE rules (CORE-10 to CORE-13 and those of the addendum) and every core, module and
+addendum rule the feature touches. Rules the feature does not touch are left out.
 
 ## Complexity Tracking
 

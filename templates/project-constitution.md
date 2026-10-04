@@ -62,7 +62,8 @@ This addendum may tighten the core and the modules but never weaken them (CORE-0
 
 ### <PREFIX>-01 · <Title>
 
-- <Rule. A bullet without SHOULD, SHOULD NOT or MAY is a MUST (CORE-02).>
+- <Rule. A bullet without SHOULD, SHOULD NOT or MAY is a MUST (CORE-02). Add " · NON-NEGOTIABLE" to
+  the title only for a rule that admits no exception.>
 
 *Tightens*: <core or module rule ID, if it touches one>
 *Why*: <reason>

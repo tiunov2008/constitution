@@ -4,13 +4,13 @@ One constitution for all of the owner's projects on the common stack: TypeScript
 pnpm, Next.js or Vite, Prisma, Better Auth), PostgreSQL and Dokploy, with Python, Go and Flutter where
 present, spec-kit as the process and AI agents as developers.
 
-Status: **v1.0.0**, ratified by the owner on 2026-10-04.
+Status: **v1.0.1**, ratified by the owner on 2026-10-04.
 
 ## Layout
 
 | Path | Content |
 |---|---|
-| `core.md` | Rules for every project: governance, the four NON-NEGOTIABLE rules, architecture, contracts, data, operations, toolchain and CI, process, agents |
+| `core.md` | Rules for every project: governance, the four core NON-NEGOTIABLE rules, architecture, contracts, data, operations, toolchain and CI, process, agents |
 | `modules/ts.md` | TypeScript monorepo: Turborepo, pnpm, Next.js or Vite, strictness, schemas, Prisma, Better Auth, tests |
 | `modules/python.md` | Python services: uv, ruff, mypy, settings, layers, database access |
 | `modules/go.md` | Go services: layout, errors, context, gate |
@@ -82,7 +82,8 @@ Adopted:
 - the constitution in English; the artifact language declared per project, English by default;
 - one owner working with AI agents, who is the only reviewer and approver;
 - Semantic Versioning with a Sync Impact Report; stable rule IDs with a module prefix;
-- NON-NEGOTIABLE: honest verification, owner decisions, secrets and access, data integrity;
+- NON-NEGOTIABLE: honest verification, owner decisions, secrets and access, data integrity; an
+  addendum may mark its own rules NON-NEGOTIABLE (v1.0.1);
 - exceptions only through Complexity Tracking, approved by the owner;
 - a development or production stage, declared in the addendum;
 - pnpm everywhere; Next.js by default, Vite for internal single-page apps; base TypeScript strictness
