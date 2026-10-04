@@ -1,6 +1,16 @@
 <!--
 Sync Impact Report (newest first; one block per version, older blocks are kept)
 
+## 1.0.2 (2026-10-04, PATCH, owner command)
+- Version: 1.0.1 -> 1.0.2
+- Rules touched: CORE-63 and the Check of CORE-62 no longer assume branch protection, which GitHub
+  Free does not offer for private repositories; there the rules hold by discipline (merge only on the
+  owner's command and only with a green CI)
+- Reason: finam_trader pilot; the GitHub API refuses branch protection and rulesets on the owner's
+  private repositories
+- Projects to update: finam_trader pins v1.0.2
+- Follow-ups: none
+
 ## 1.0.1 (2026-10-04, PATCH, owner command)
 - Version: 1.0.0 -> 1.0.1
 - Rules touched: CORE-02 and CORE-03 state that an addendum may mark its own rules NON-NEGOTIABLE
@@ -510,7 +520,8 @@ feature's quickstart.
   audits and image scans fail the release build.
 
 *Why*: the gate is the evidence that CORE-10 asks for, produced the same way every time.
-*Check*: the CI workflow contains these steps; `main` is protected by them.
+*Check*: the CI workflow contains these steps; `main` requires them where the hosting plan allows
+branch protection (CORE-63).
 
 ### CORE-63 · Git and pull requests
 
@@ -518,9 +529,14 @@ feature's quickstart.
 - Changes reach `main` through a pull request, merged only with a green CI.
 - A commit message says what changed and why.
 - No force-push to `main`.
+- Where the hosting plan allows it, branch protection on `main` requires the CI checks and blocks
+  force-pushes. Where it does not (for example private repositories on GitHub Free), these bullets hold
+  by discipline: a pull request is merged only on the owner's command (CORE-11) and only when its CI is
+  green.
 
 *Why*: history is the project's memory; it must stay readable and true.
-*Check*: branch protection on `main`.
+*Check*: branch protection on `main` where available; otherwise every merged pull request shows a
+green CI.
 
 ### CORE-64 · Tests
 
@@ -647,4 +663,4 @@ None.
 
 ---
 
-**Version**: 1.0.1 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-04
+**Version**: 1.0.2 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-04
