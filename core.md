@@ -1,6 +1,17 @@
 <!--
 Sync Impact Report (newest first; one block per version, older blocks are kept)
 
+## 1.0.4 (2026-10-06, PATCH, owner command)
+- Version: 1.0.3 -> 1.0.4
+- Rules touched: CORE-62 names what the secret scan covers: the commits that the push or pull request
+  adds. A secret found in older history is rotated and recorded in the addendum's Sync Impact Report
+  rather than failing every later run.
+- Reason: driver-recruitment adoption; a scan of the whole history failed on secrets removed months
+  earlier, which only an ignore file could silence. A project that scans its whole history stays
+  compliant.
+- Projects to update: none required; driver-recruitment pins v1.0.4
+- Follow-ups: none
+
 ## 1.0.3 (2026-10-06, PATCH, owner command)
 - Version: 1.0.2 -> 1.0.3
 - Rules touched: TS-01 no longer requires the file `.node-version`; the Node version is pinned exactly
@@ -521,10 +532,12 @@ feature's quickstart.
 - Every project with a remote repository runs CI on every push to `main` and on every pull request.
 - The base gate, required in every stage: install from the lock file; lint; format check; typecheck;
   tests, with integration tests against a real database service and never skipped silently; build; the
-  gate steps of the applied modules (TS-04, PY-02, GO-03, FL-02); secret scanning (for example
-  gitleaks), which fails on any finding; dependency audits (`pnpm audit`, `pip-audit`, `govulncheck`)
-  and, where the repository builds images, an image scan (for example trivy). Audit and scan findings
-  are reported; apart from secrets, they fail only production release builds.
+  gate steps of the applied modules (TS-04, PY-02, GO-03, FL-02); secret scanning of the commits that
+  the push or pull request adds (for example gitleaks), which fails on any finding; dependency audits
+  (`pnpm audit`, `pip-audit`, `govulncheck`) and, where the repository builds images, an image scan
+  (for example trivy). Audit and scan findings are reported; apart from secrets, they fail only
+  production release builds. A secret found in older history is rotated and recorded in the
+  addendum's Sync Impact Report (CORE-12).
 - SHOULD: one entry point (for example `pnpm check` or `scripts/check.sh`) runs the same steps
   locally, in Docker and in CI.
 - *(production)* The gate also applies all migrations to a clean database and fails on drift between the
@@ -675,4 +688,4 @@ None.
 
 ---
 
-**Version**: 1.0.3 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-06
+**Version**: 1.0.4 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-06
