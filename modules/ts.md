@@ -6,8 +6,10 @@ or MAY is a MUST.
 
 ### TS-01 · Monorepo and package manager
 
-- Turborepo with pnpm workspaces. `packageManager` is pinned exactly (`pnpm@x.y.z`); the Node version is
-  pinned exactly in `.node-version`, and `engines.node` matches it (CORE-60).
+- Turborepo with pnpm workspaces. `packageManager` is pinned exactly (`pnpm@x.y.z`). The Node version is
+  pinned exactly in one place that the addendum names (for example `devEngines.runtime` or
+  `engines.node` in the root `package.json`, or `.node-version`); every other place that states it, such
+  as `engines.node`, a Dockerfile or the CI setup, matches it (CORE-60).
 - Every package offers the same task names where they apply: `lint`, `typecheck`, `test`, `build`. The
   root adds `format:check`. (Projects that use `check-types` rename it when they adopt this module.)
 - In `turbo.json`, `build` depends on `^build`; `dev` has `cache: false` and `persistent: true`;

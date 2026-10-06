@@ -1,6 +1,18 @@
 <!--
 Sync Impact Report (newest first; one block per version, older blocks are kept)
 
+## 1.0.3 (2026-10-06, PATCH, owner command)
+- Version: 1.0.2 -> 1.0.3
+- Rules touched: TS-01 no longer requires the file `.node-version`; the Node version is pinned exactly
+  in one place the addendum names (`devEngines.runtime` or `engines.node` in the root `package.json`,
+  or `.node-version`), and every other place that states it matches. The example list of CORE-60 and
+  the stack table of template project-constitution say the same.
+- Reason: driver-recruitment adoption; a separate file only repeated the version that `package.json`
+  already states, and setup-node reads it from `package.json`. Every project compliant with 1.0.2
+  stays compliant.
+- Projects to update: none required; driver-recruitment pins v1.0.3
+- Follow-ups: none
+
 ## 1.0.2 (2026-10-04, PATCH, owner command)
 - Version: 1.0.1 -> 1.0.2
 - Rules touched: CORE-63 and the Check of CORE-62 no longer assume branch protection, which GitHub
@@ -483,10 +495,10 @@ feature's quickstart.
 ### CORE-60 · Pinned toolchain
 
 - Runtime and package-manager versions (Node, pnpm, Python, uv, Go, Flutter) are pinned exactly, each in
-  one file (for example `.node-version`, `packageManager` in `package.json`, `.python-version`, the
-  `go` and `toolchain` lines of `go.mod`), and CI and Docker images use those versions. Version ranges
-  that tools require elsewhere (for example `engines.node`) match the pinned version. The addendum lists
-  the versions.
+  one file (for example `devEngines.runtime` or `engines.node` in `package.json` or `.node-version`,
+  `packageManager` in `package.json`, `.python-version`, the `go` and `toolchain` lines of `go.mod`),
+  and CI and Docker images use those versions. Version ranges that tools require elsewhere (for
+  example `engines.node`) match the pinned version. The addendum lists the versions.
 - Each ecosystem uses one package manager (TS-01, PY-01). The lock file is committed. Dependency
   manifests may use version ranges; CI installs strictly from the lock file.
 
@@ -663,4 +675,4 @@ None.
 
 ---
 
-**Version**: 1.0.2 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-04
+**Version**: 1.0.3 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-06

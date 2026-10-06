@@ -55,7 +55,7 @@ This addendum may tighten the core and the modules but never weaken them (CORE-0
 
 | Tool | Version | Pinned in |
 |---|---|---|
-| Node | <x.y.z> | `.node-version` |
+| Node | <x.y.z> | <one place (TS-01): `package.json` `devEngines.runtime` or `engines.node`, or `.node-version`> |
 | pnpm | <x.y.z> | `package.json` `packageManager` |
 
 ## Project rules

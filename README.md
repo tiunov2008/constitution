@@ -4,7 +4,7 @@ One constitution for all of the owner's projects on the common stack: TypeScript
 pnpm, Next.js or Vite, Prisma, Better Auth), PostgreSQL and Dokploy, with Python, Go and Flutter where
 present, spec-kit as the process and AI agents as developers.
 
-Status: **v1.0.2**, ratified by the owner on 2026-10-04.
+Status: **v1.0.3**, ratified by the owner on 2026-10-04, last amended on 2026-10-06.
 
 ## Layout
 
@@ -102,7 +102,9 @@ Adopted:
 - a project lists every module whose stack it has; leaving one out is an exception (CORE-06, added
   after the review);
 - where the hosting plan offers no branch protection (private repositories on GitHub Free), the
-  pull-request rules hold by discipline (CORE-63, v1.0.2).
+  pull-request rules hold by discipline (CORE-63, v1.0.2);
+- the Node version is pinned exactly in one place the project chooses, `package.json` or
+  `.node-version`; the file `.node-version` itself is not required (TS-01, v1.0.3).
 
 Resolved while drafting (the stricter or the simpler reading was taken):
 
