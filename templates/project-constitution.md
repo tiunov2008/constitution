@@ -1,17 +1,15 @@
 <!--
-Sync Impact Report (newest first; one block per version, older blocks are kept)
+Change log (newest first; one entry per version, older entries are kept)
 
-## 1.0.0
-- Version: none -> 1.0.0
-- Core: v1.0.0
+## 1.0.0 (<YYYY-MM-DD>)
+- Constitution: vX.Y.Z
 - Changes: initial addendum
-- Gaps against the core and modules: <list, each with its task or exception>
-- Follow-ups: none
+- Gaps: <none, or each with its task or standing exception>
 -->
 
 # <Project> Constitution
 
-This project follows the Engineering Constitution, pinned at **v1.0.0** (the submodule at
+This project follows the Engineering Constitution, pinned at **vX.Y.Z** (the submodule at
 `.specify/constitution`; CORE-05). This file is the project's entry file and addendum.
 
 ## Read this first
@@ -31,31 +29,54 @@ If `.specify/constitution/core.md` does not exist, the submodule is not checked 
 `git submodule update --init`. Never work from this addendum alone.
 
 This file is edited directly (CORE-04). Do not run `/speckit-constitution` on it: that command rewrites
-the whole file and drops the Sync Impact Report log.
+the whole file and drops the change log.
 
-This addendum may tighten the core and the modules but never weaken them (CORE-01).
+This addendum may tighten the core and the modules and replace their defaults, but never weaken a rule
+without a recorded deviation or exception (CORE-01).
 
 ## Parameters (CORE-06)
 
 | Parameter | Value |
 |---|---|
-| Applied modules | <ts, python, go, flutter, jobs, dokploy, llm: keep the ones that apply> |
+| Applied modules | <ts, dokploy, python, go, flutter, jobs, llm: keep the ones that apply> |
 | Stage (CORE-07) | development |
 | Artifact language (CORE-73) | English |
 | Identifier scheme (CORE-41) | <scheme per kind of entity, chosen by the owner> |
-| Schema owners and migrators (CORE-40) | <for example: schema `public`, Prisma Migrate> |
-| Domain time zone (CORE-42) | <none, or the zone and what it applies to> |
-| Source-of-truth document (CORE-01) | <none, or a path> |
-| Background jobs (CORE-50) | <none, PostgreSQL job table, RabbitMQ> |
-| Web framework per app (TS-05) | <for example: apps/web, Next.js> |
-| Production deploy trigger (DOKPLOY-06) | <production only: git tag, or owner command> |
+| Schema owners and migrators (CORE-40) | schema `public`: Prisma Migrate |
+| Domain time zone (CORE-42) | none |
+| Source-of-truth document (CORE-01) | none |
 | Acceptable data loss and restore time (CORE-43) | <production only> |
+
+## Module parameters (CORE-06)
+
+One row per default of every applied module, copied from the module's Defaults table. Keep the default
+or write the project's choice; replacing a default is an owner decision (CORE-02).
+
+| Module | Parameter | Value |
+|---|---|---|
+| ts | Monorepo tool | Turborepo |
+| ts | Web framework per app | apps/web: Next.js |
+| ts | Styling | Tailwind CSS |
+| ts | Database access and migrations | Prisma |
+| ts | Authentication | Better Auth in `@<project>/auth` |
+| ts | Schema library | zod |
+| ts | Logger | pino |
+| ts | Test runner | Vitest; Playwright for e2e |
+| ts | Node version pinned in | `devEngines.runtime` in the root `package.json` |
+| dokploy | Production compose file | `docker-compose.prod.yml`, with `image:` entries only |
+| dokploy | Image build | CI builds and pushes; Dokploy only pulls |
+| dokploy | Image registry | <GHCR, or a registry on the Dokploy server> |
+| dokploy | Images | `web` and `tools`, tagged with the full commit SHA, plus `test` and `production` |
+| dokploy | Test deploy | every push to `main` |
+| dokploy | Production deploy trigger | a git tag `vX.Y.Z` |
+| dokploy | Deploy verification | `scripts/verify-deploy.sh` |
+| dokploy | Backups | <production only> |
 
 ## Stack and pinned versions (CORE-60)
 
 | Tool | Version | Pinned in |
 |---|---|---|
-| Node | <x.y.z> | <one place (TS-01): `package.json` `devEngines.runtime` or `engines.node`, or `.node-version`> |
+| Node | <x.y.z> | <the place named in the module parameters> |
 | pnpm | <x.y.z> | `package.json` `packageManager` |
 
 ## Project rules
@@ -69,15 +90,13 @@ This addendum may tighten the core and the modules but never weaken them (CORE-0
 *Why*: <reason>
 *Check*: <how compliance is seen>
 
-## Standing SHOULD deviations (CORE-02)
+## Deviations and standing exceptions (CORE-02, CORE-03)
 
-| Rule | Deviation | Reason |
-|---|---|---|
+| Rule | Kind | Why | Compliant option rejected | Ends or is reviewed when | Owner approval |
+|---|---|---|---|---|---|
 
-## Rejected alternatives (CORE-06)
-
-| Alternative | Reason |
-|---|---|
+*Kind* is `SHOULD` (only *Why* is required) or `exception` (every column is required). Gaps found when
+adopting the constitution or moving the pin go here unless a task closes them first.
 
 ## Retired IDs
 

@@ -5,24 +5,26 @@ Check" and "Complexity Tracking" sections, it uses the formats below.
 
 ## Constitution Check
 
-*Core and modules vX.Y.Z (modules: <list>); addendum vA.B.C. Filled before Phase 0 research and
-re-checked after Phase 1 design.*
+*Constitution vX.Y.Z (modules: <list>); addendum vA.B.C. Filled before Phase 0 research and re-checked
+after Phase 1 design.*
 
 | Rule | How the plan meets it | Status |
 |---|---|---|
 | CORE-10 | <the checks the tasks run and where their output is recorded> | Pass |
-| TS-07 | <...> | Pass with exception (Complexity Tracking) |
-| TS-06 | <...> | SHOULD deviation: <reason> |
-| CORE-43 | <what the project will need at promotion> | Deferred (production) |
-| DOKPLOY-06 | <no deploy in this feature> | Not applicable |
+| CORE-11 | <stages, merges and deploys wait for the owner's command> | Pass |
+| CORE-12 | <secrets and public surfaces the feature adds, or none> | Pass |
+| CORE-13 | <migrations, data deleted or changed and its backup, or none> | Pass |
+| TS-07 | <...> | Exception (Complexity Tracking) |
+| CORE-22 | <...> | SHOULD deviation: <reason> |
 
-List the NON-NEGOTIABLE rules (CORE-10 to CORE-13 and those of the addendum) and every core, module and
-addendum rule the feature touches. Rules the feature does not touch are left out.
+List the NON-NEGOTIABLE rules (CORE-10 to CORE-13 and those of the addendum), then only the rules the
+plan does not meet as written. A rule that is not listed is met. In a development project,
+production-only rules are left out.
 
 ## Complexity Tracking
 
 *Only for exceptions to a MUST (CORE-03). NON-NEGOTIABLE rules admit none.*
 
-| Rule | Why the exception is needed | Simpler compliant option and why it was rejected | Removal condition | Owner approval |
+| Rule | Why the exception is needed | Simpler compliant option and why it was rejected | Ends or is reviewed when | Owner approval |
 |---|---|---|---|---|
 | <ID> | <...> | <...> | <...> | <YYYY-MM-DD> |

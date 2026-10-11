@@ -1,23 +1,27 @@
 # Module FL: Flutter apps
 
 Applies to projects with Flutter mobile or desktop apps. Part of the Engineering Constitution; the
-version is in `core.md`. Rule format and levels follow the core (CORE-02): a bullet without SHOULD,
-SHOULD NOT or MAY is a MUST.
+version is in `core.md`. Defaults, rules and recipes are used as CORE-02 defines them: a bullet without
+SHOULD, SHOULD NOT or MAY is a MUST.
 
-### FL-01 · Structure
+## Defaults
 
-- Folders are organised by feature; navigation uses a declarative router.
-- SHOULD: state is managed with Riverpod.
+The addendum copies this table into its module parameters and keeps or replaces each value (CORE-06).
 
-*Why*: features stay self-contained and testable.
-*Check*: review.
+| Parameter | Default |
+|---|---|
+| State management | Riverpod |
+| Navigation | a declarative router (for example go_router) |
+
+## Rules
 
 ### FL-02 · Gate
 
-- `flutter analyze` and `flutter test` run in CI (CORE-62), not only locally.
+- `flutter analyze`, `dart format --output=none --set-exit-if-changed .` and `flutter test` run in CI
+  (CORE-62), not only locally.
 
 *Why*: a local-only gate is skipped exactly when it matters.
-*Check*: the CI workflow runs both.
+*Check*: the CI workflow runs all three.
 
 ### FL-03 · Offline and honest feedback
 
@@ -27,3 +31,10 @@ SHOULD NOT or MAY is a MUST.
 
 *Why*: mobile networks fail often; users must be able to trust what the app tells them.
 *Check*: a test with the network off keeps the user's input and shows a pending state.
+
+## Recipes
+
+- **Structure.** Folders are organised by feature, so that each feature stays self-contained and
+  testable.
+- **Pinned Flutter.** Pin the Flutter version for CORE-60 in one file (for example `.fvmrc` for FVM)
+  and let CI read it.

@@ -1,20 +1,19 @@
 # Module GO: Go services
 
 Applies to projects with Go services, workers, CLIs or libraries. Part of the Engineering Constitution;
-the version is in `core.md`. Rule format and levels follow the core (CORE-02): a bullet without SHOULD,
-SHOULD NOT or MAY is a MUST. Based on the production-free-song backend constitution 2.0.0 and its
-implementation (goose, staticcheck doc rules).
+the version is in `core.md`. Defaults, rules and recipes are used as CORE-02 defines them: a bullet
+without SHOULD, SHOULD NOT or MAY is a MUST.
 
-### GO-01 · Layout and lifecycle
+## Defaults
 
-- Executables live in `cmd/` where the repository's size justifies it; non-public code lives in
-  `internal/`. Packages reflect responsibilities, not layers for their own sake.
-- Interfaces are declared by the consumer, where they enable substitution or testing. No wrappers
-  without a purpose.
-- `main` wires the dependencies and owns the lifecycle (CORE-21).
+The addendum copies this table into its module parameters and keeps or replaces each value (CORE-06).
 
-*Why*: idiomatic layout lets any Go reader find their way.
-*Check*: no import cycles; `internal/` is not imported from outside its module.
+| Parameter | Default |
+|---|---|
+| Migrator of a schema the service owns | goose |
+| Logger | `log/slog` with JSON output |
+
+## Rules
 
 ### GO-02 · Errors, context and goroutines
 
@@ -45,11 +44,20 @@ implementation (goose, staticcheck doc rules).
 *Why*: independently deployed services must build from their own module.
 *Check*: the version-check script runs in CI.
 
-### GO-05 · Storage, logging and docs
+### GO-05 · Storage and logging
 
-- A Go service that owns its schema uses goose, or the migrator named in the addendum (CORE-40).
-- Logging goes through `log/slog` with JSON output (CORE-52).
-- Exported symbols have doc comments that start with the symbol's name.
+- A schema the service owns has one migrator (CORE-40).
+- Logging goes through one logger with JSON output (CORE-52).
 
-*Why*: the standard library covers logging; one migrator per schema.
-*Check*: no second logging library in `go.mod`.
+*Why*: one migrator per schema; one way to write logs.
+*Check*: no second migrator or logging library in `go.mod`.
+
+## Recipes
+
+- **Layout.** Executables live in `cmd/` where the repository's size justifies it; non-public code
+  lives in `internal/`. Packages reflect responsibilities, not layers for their own sake. `main` wires
+  the dependencies and owns the lifecycle.
+- **Interfaces.** Interfaces are declared by the consumer, where they enable substitution or testing.
+  No wrappers without a purpose.
+- **Doc comments.** Exported symbols have doc comments that start with the symbol's name; staticcheck
+  reports the missing ones.

@@ -1,81 +1,36 @@
-<!--
-Sync Impact Report (newest first; one block per version, older blocks are kept)
-
-## 1.0.4 (2026-10-06, PATCH, owner command)
-- Version: 1.0.3 -> 1.0.4
-- Rules touched: CORE-62 names what the secret scan covers: the commits that the push or pull request
-  adds. A secret found in older history is rotated and recorded in the addendum's Sync Impact Report
-  rather than failing every later run.
-- Reason: driver-recruitment adoption; a scan of the whole history failed on secrets removed months
-  earlier, which only an ignore file could silence. A project that scans its whole history stays
-  compliant.
-- Projects to update: none required; driver-recruitment pins v1.0.4
-- Follow-ups: none
-
-## 1.0.3 (2026-10-06, PATCH, owner command)
-- Version: 1.0.2 -> 1.0.3
-- Rules touched: TS-01 no longer requires the file `.node-version`; the Node version is pinned exactly
-  in one place the addendum names (`devEngines.runtime` or `engines.node` in the root `package.json`,
-  or `.node-version`), and every other place that states it matches. The example list of CORE-60 and
-  the stack table of template project-constitution say the same.
-- Reason: driver-recruitment adoption; a separate file only repeated the version that `package.json`
-  already states, and setup-node reads it from `package.json`. Every project compliant with 1.0.2
-  stays compliant.
-- Projects to update: none required; driver-recruitment pins v1.0.3
-- Follow-ups: none
-
-## 1.0.2 (2026-10-04, PATCH, owner command)
-- Version: 1.0.1 -> 1.0.2
-- Rules touched: CORE-63 and the Check of CORE-62 no longer assume branch protection, which GitHub
-  Free does not offer for private repositories; there the rules hold by discipline (merge only on the
-  owner's command and only with a green CI)
-- Reason: finam_trader pilot; the GitHub API refuses branch protection and rulesets on the owner's
-  private repositories
-- Projects to update: finam_trader pins v1.0.2
-- Follow-ups: none
-
-## 1.0.1 (2026-10-04, PATCH, owner command)
-- Version: 1.0.0 -> 1.0.1
-- Rules touched: CORE-02 and CORE-03 state that an addendum may mark its own rules NON-NEGOTIABLE
-  (CORE-03 read as a closed list CORE-10 to CORE-13); template plan-constitution-check lists
-  addendum NON-NEGOTIABLE rules too; template project-constitution explains the title marker
-- Also: line wrapping fixed in DOKPLOY-06 (no change in meaning)
-- Reason: finam_trader pilot keeps "no look-ahead" and its TZ phase discipline uncrossable
-- Projects to update: finam_trader pins v1.0.1
-- Follow-ups: none
-
-## 1.0.0 (ratified by the owner on 2026-10-04)
-- Version: none -> 1.0.0 (initial release)
-- Scope: core.md and modules ts, python, go, flutter, jobs, dokploy, llm; templates project-constitution
-  and plan-constitution-check
-- Sources: constitutions of finam_trader 2.6.0, data_foundry 1.0.0, production-free-song backend 2.0.0
-  and hum-to-song-api 1.0.0, nornickel-research-graph 1.2.0; conventions of driver-recruitment, CFO,
-  next-parser and eco-parser; owner decisions of 2026-10-04 (README, "Decision log")
-- Projects to update: finam_trader first (pilot; its domain rules move into its addendum); the other
-  projects when the owner decides
-- Templates: spec-kit's plan-template.md is not patched; CORE-71 says how its Constitution Check and
-  Complexity Tracking sections are filled (templates/plan-constitution-check.md)
-- Follow-ups: add a shared Dokploy deployment verification script to scripts/ (DOKPLOY-06); publish this
-  repository and tag v1.0.0 (owner)
--->
-
 # Engineering Constitution: Core
 
-One constitution for all of the owner's projects on the common stack: TypeScript monorepos with Next.js
-or Vite, PostgreSQL and Dokploy; Python, Go and Flutter where present; spec-kit as the process; AI agents
-as developers. A project's constitution is this core, plus the modules that match its stack, plus the
-project's addendum.
+The owner's projects share one stack: TypeScript monorepos (Turborepo, pnpm, Next.js, Prisma, Better
+Auth, Tailwind CSS), PostgreSQL and Dokploy, with Python, Go and Flutter where needed, spec-kit as the
+process and AI agents as developers. This constitution exists for two things: to start a new project on
+that stack in minutes (`quickstart.md`), and to keep every project cheap to change and maintain
+afterwards.
+
+It holds three kinds of content:
+
+- **Rules**, with IDs such as `CORE-10` or `TS-07`: what holds in every project. Each one prevents a
+  failure that earlier projects paid for.
+- **Defaults**: the stack choices the starter ships with, listed in each module. A project replaces a
+  default by recording its choice in the addendum; no exception is needed.
+- **Recipes**: how to do common things on the stack and which traps to avoid, learned on earlier
+  projects. A recipe is the fast path; leaving it needs no record as long as the rules still hold.
+
+What no rule covers needs no approval and no record.
+
+A project's constitution is this core, plus the modules that match its stack, plus the project's
+addendum.
 
 ## Definitions
 
 - **Owner**: the person who owns a project and makes its decisions. The projects are run by one owner
   working with AI agents, so the owner is also the only reviewer and the only approver of exceptions.
 - **Agent**: an AI coding agent working in the repository (Claude Code or another).
-- **Module**: a file in `modules/` with the rules for one stack or concern. It applies when the
-  project's addendum lists it, and the addendum lists every module whose stack the project has
-  (CORE-06).
+- **Module**: a file in `modules/` with the defaults, rules and recipes for one stack or concern. It
+  applies when the project's addendum lists it (CORE-06).
 - **Addendum**: the project's own part, kept in the project's `.specify/memory/constitution.md`
   (template: `templates/project-constitution.md`).
+- **Starter**: the template repository a new project is created from (`quickstart.md`). It meets the
+  rules and uses the defaults of the core and of the modules it includes.
 - **Stage**: `development` or `production`, a property of the project declared in its addendum
   (CORE-07).
 - **Production environment**: the deployment that real users or the owner rely on. **Test environment**:
@@ -93,9 +48,9 @@ production stage (CORE-07).
 ### CORE-01 · Layers and precedence
 
 - A project's constitution is this core, the modules its addendum lists, and the addendum.
-- An addendum MAY add rules, tighten rules and choose among options that the core or a module leaves
-  open. It MUST NOT weaken a core or module rule, except by a standing SHOULD deviation (CORE-02). A
-  module MUST NOT weaken a core rule.
+- An addendum MAY add rules, tighten rules, replace defaults and choose among options that the core or
+  a module leaves open. It MUST NOT weaken a rule except through a recorded deviation or exception
+  (CORE-02, CORE-03). A module MUST NOT weaken a core rule.
 - When two rules conflict, the stricter one applies.
 - The addendum MAY name a source-of-truth document (for example a TZ or a PRD) that defines what the
   product does. The constitution defines how the work is done. When the two contradict each other, the
@@ -107,82 +62,98 @@ production stage (CORE-07).
 *Check*: every addendum rule that touches a core or module rule names that rule's ID and says how it
 tightens it.
 
-### CORE-02 · Rule levels
+### CORE-02 · Rule levels, defaults and recipes
 
 - **MUST** (every bullet without another level): required. A deviation needs an exception (CORE-03).
 - **NON-NEGOTIABLE**: a rule whose MUST bullets admit no exception. It changes only by amendment
   (CORE-04). The core's NON-NEGOTIABLE rules are CORE-10 to CORE-13. An addendum MAY mark its own
   rules NON-NEGOTIABLE in their titles; they then have the same force.
-- **SHOULD** and **SHOULD NOT**: the default. A deviation is allowed when its reason is written down: in
-  the plan's Constitution Check for one feature, or in the addendum for a standing deviation.
+- **SHOULD** and **SHOULD NOT**: the expected behaviour. A deviation is allowed when its reason is
+  written down: in the plan or the pull request for one change, or in the addendum's deviations table
+  for a standing one.
 - **MAY**: optional.
+- **Default**: a choice that a module makes for the project, such as a library, a tool or a layout. The
+  addendum's parameters keep it or name a replacement. Replacing a default is an owner decision recorded
+  in one line, not an exception.
+- **Recipe**: guidance without a level. Not following it needs no record.
 
-*Why*: the level tells the agent how much justification a deviation needs.
-*Check*: every SHOULD deviation in a plan or an addendum has a reason.
+*Why*: the level tells the agent how much justification a deviation needs, and most work needs none.
+*Check*: every deviation in a plan, a pull request or the addendum has a reason.
 
 ### CORE-03 · Exceptions
 
-- An exception to a MUST is recorded before the work that needs it, in the Complexity Tracking table of
-  the feature plan, with: the rule ID; why the exception is needed; the simpler compliant option and why
-  it was rejected; the removal condition; the owner's approval with its date.
-- Work done without a plan records the same fields in the pull request description.
+- An exception to a MUST records: the rule ID; why the exception is needed; the simpler compliant option
+  and why it was rejected; when it ends or is reviewed; the owner's approval with its date.
+- An exception for one feature is recorded before the work that needs it, in the Complexity Tracking
+  table of the feature plan (CORE-71), or in the pull request description for work without a plan. It
+  ends with the feature unless the owner makes it standing.
+- A standing exception (a module left out, a gap found when adopting the constitution or moving the pin,
+  a rule the project cannot meet for a lasting reason) is recorded in the addendum's deviations table
+  and reviewed when its review condition is met.
 - An owner instruction that contradicts a MUST is an exception request: the agent names the rule,
   records the exception and proceeds once the owner confirms it.
 - NON-NEGOTIABLE rules (CORE-10 to CORE-13, and addendum rules marked so) admit no exception. An
   instruction that would break one is not carried out: the agent names the rule and offers the
   compliant way (for CORE-10, doing the work and reporting it as not verified). The only way to change
   such a rule is an amendment.
-- Exceptions are temporary. Making one permanent requires an amendment.
 
-*Why*: an exception without an owner and an end becomes the new rule without anyone deciding it.
-*Check*: every Complexity Tracking row has all five fields; when a feature closes, the owner reviews
-its open exceptions.
+*Why*: an exception without an owner and a review point becomes the new rule without anyone deciding
+it.
+*Check*: every exception has all five fields; when a feature closes, the owner reviews its open
+exceptions.
 
 ### CORE-04 · Versioning and amendments
 
 - The core and all modules share one version, in Semantic Versioning:
   - MAJOR: a rule is removed, or redefined so that it asks for something incompatible with what it
     asked before;
-  - MINOR: a rule or a module is added, or a rule is materially extended. Projects that do not yet meet
-    the new text record the gap when they move their pin (CORE-05);
-  - PATCH: wording, clarification, typo.
-- Every amendment adds a block for its version at the top of the Sync Impact Report in this file
-  (version change, rules touched, projects and templates to update, follow-ups), keeps the older
-  blocks, and updates the footer.
+  - MINOR: a rule, a default or a module is added or changed, or a rule is extended. Projects that do
+    not meet the new text record the gap when they move their pin (CORE-05);
+  - PATCH: wording, clarification, a recipe, or a relaxation after which every compliant project stays
+    compliant.
+- Every amendment adds an entry at the top of `CHANGELOG.md`: the version, the date, the kind, the
+  rules touched, the reason, and what a project does when it moves its pin. The footer of this file and
+  the status line of the README carry the version.
 - Releases are git tags `vX.Y.Z`. Only the owner amends and tags (CORE-11).
 - Rule IDs are stable. A rule keeps its ID when reworded or moved. The ID of a removed rule, core or
   module, is listed under "Retired IDs" in this file and is never reused. A new core rule takes the next
   free number in its section; a new module rule takes the number after the highest one its module has
   used.
-- An addendum is versioned the same way, independently, with its own Sync Impact Report kept as a log.
+- A rule stays only while it pays for itself: it prevents a failure that happened or would be
+  expensive, and costs less than that failure. A rule that slows work more than it protects it is
+  amended.
+- An addendum is versioned the same way, independently, with its change log at the top of the entry
+  file.
 - Plans, reviews and exceptions refer to rules by ID.
 
 *Why*: projects pin a version, so they must be able to see what changed between two versions.
-*Check*: the version in the footer equals the latest tag; no ID appears twice or reappears after
-retirement.
+*Check*: `sh scripts/check-constitution.sh` passes: no ID appears twice or reappears after retirement,
+every referenced ID exists, and the footer, the README and the changelog state the same version.
 
 ### CORE-05 · Adoption in a project
 
-- The project mounts this repository as a git submodule at `.specify/constitution`. The version a project
-  follows is the submodule commit. That commit SHOULD be a release tag. The entry file states the tag,
-  or the full commit SHA when the commit is not a release tag.
+- A new project is created from the starter. An existing project adopts the constitution as
+  `quickstart.md` describes.
+- The project mounts this repository as a git submodule at `.specify/constitution`. The version a
+  project follows is the submodule commit. That commit SHOULD be a release tag. The entry file states
+  the tag, or the full commit SHA when the commit is not a release tag.
 - The project's `.specify/memory/constitution.md` is its entry file, made from
   `templates/project-constitution.md`. It states the pinned version, lists the applied modules,
-  declares the project parameters (CORE-06) and holds the addendum rules. Addendum rule IDs use the
-  project's prefix (for example `FINAM-03`).
+  declares the project parameters (CORE-06) and holds the deviations table and the addendum rules.
+  Addendum rule IDs use the project's prefix (for example `<PREFIX>-03`).
 - Agents and spec-kit commands read the entry file, then `.specify/constitution/core.md`, every listed
   module and `.specify/constitution/templates/plan-constitution-check.md` (CORE-80). If
   `.specify/constitution/core.md` is missing (a clone or worktree without submodules), the agent stops
   and runs `git submodule update --init`. Work never proceeds from the addendum alone.
 - The entry file is edited directly, following CORE-04. `/speckit-constitution` is not run on it,
-  because that command rewrites the whole file and drops the Sync Impact Report log.
-- Moving the pin to a newer version is a commit of its own. It reads the Sync Impact Report blocks in
-  between and records the resulting changes, and any gaps, in the addendum's report.
-- CI checks out submodules.
+  because that command rewrites the whole file and drops the change log.
+- Moving the pin to a newer version is a commit of its own. It reads the `CHANGELOG.md` entries in
+  between and records the resulting changes in the addendum's change log, and each gap as a task or a
+  standing exception (CORE-03).
+- CI checks out submodules and runs `sh .specify/constitution/scripts/check-pin.sh`.
 
 *Why*: the rules travel with the code and change only when the project chooses to update them.
-*Check*: CI compares the submodule commit with the tag or commit the entry file states (command in
-README).
+*Check*: CI runs the pin check.
 
 ### CORE-06 · Project parameters
 
@@ -197,25 +168,22 @@ The addendum MUST declare:
 - the source-of-truth document, if any (CORE-01);
 - the stack with its pinned runtime and package-manager versions (CORE-60); the core never names
   versions;
-- the background-job technology, if there are background jobs (CORE-50);
-- the web framework of each web app (TS-05);
-- *(production)* the deploy trigger (DOKPLOY-06) and the acceptable data loss and restore time
-  (CORE-43);
-- the rejected alternatives, each with its reason.
+- for each default of every applied module, the project's choice;
+- *(production)* the acceptable data loss and restore time (CORE-43).
 
-A project that contains a module's stack or concern lists that module. Leaving it out is an exception
-(CORE-03).
+A project that contains a module's stack or concern lists that module. Leaving it out is a standing
+exception (CORE-03).
 
-*Why*: the stack changes faster than the rules; keeping it in the addendum spares amendments of the core.
-A module left out silently would weaken the constitution for exactly the code it governs.
-*Check*: the entry file's parameter table has a value for every applicable row; the applied modules
+*Why*: the stack changes faster than the rules; keeping the choices in the addendum spares amendments of
+the core. A module left out silently would weaken the constitution for exactly the code it governs.
+*Check*: the entry file's parameter tables have a value for every applicable row; the applied modules
 match the stacks found in the repository.
 
 ### CORE-07 · Project stage
 
 - In `development` the project MAY break data and API compatibility and MAY reset data that is not
-  production data. It MAY run only the base CI gate (CORE-62). Rules and bullets marked *(production)*
-  do not apply yet.
+  production data. It runs the base CI gate (CORE-62), and changes in the areas listed in CORE-81 need
+  only the task. Rules and bullets marked *(production)* do not apply yet.
 - `development` relaxes nothing else. NON-NEGOTIABLE rules, security and verification apply in full;
   production data, wherever it exists, stays under CORE-13.
 - In `production` every rule applies.
@@ -224,8 +192,7 @@ match the stacks found in the repository.
   it or which exception it takes.
 
 *Why*: young projects should move fast without lowering the bar on security and honesty.
-*Check*: the addendum declares the stage; the Constitution Check marks production-only rules as
-deferred (CORE-71).
+*Check*: the addendum declares the stage.
 
 ### CORE-08 · One place per rule
 
@@ -235,7 +202,7 @@ deferred (CORE-71).
   `docs/architecture.md`). When the two disagree, the constitution wins and the doc is fixed in the
   same change.
 
-*Why*: copies drift. In nornickel-research-graph the same rules diverged across three files.
+*Why*: copies drift; a rule restated in three files ends up saying three different things.
 *Check*: review: no rule text is duplicated outside the constitution.
 
 ## Non-negotiable rules
@@ -243,8 +210,10 @@ deferred (CORE-71).
 ### CORE-10 · Honest verification · NON-NEGOTIABLE
 
 - Nobody, agent or human, reports work as done, working, fixed or verified without running the checks
-  that prove it on the final state of the change and seeing them pass: typecheck, lint, tests and build,
-  plus e2e and deploy verification when the change touches them.
+  that prove it on the final state of the change and seeing them pass. These are the gate steps
+  (CORE-62) for the packages the change affects and the packages that depend on them, plus e2e and
+  deploy verification when the change touches them. A change to documentation only needs the format
+  check. The full gate runs in CI before a merge.
 - A report states what was run and with what result, and what was not run and why. A failure is
   reported with its output.
 - A test that was skipped or did not run is not evidence. Neither is a test that ran against a mock
@@ -264,26 +233,29 @@ deferred (CORE-71).
 
 Only on the owner's explicit command does anyone:
 
-- commit, push, merge, tag or release;
+- merge into `main`, tag or release;
 - deploy to production, or set up or change automatic deploys;
-- start the next spec-kit stage (CORE-70). The agent stops when a stage ends;
+- start the next spec-kit stage of a feature (CORE-70). The agent stops when a stage ends;
 - change domain logic or business rules beyond what was asked;
 - move the project to another stage (CORE-07);
-- approve an exception (CORE-03), or amend the constitution or an addendum.
+- approve an exception (CORE-03), replace a default (CORE-02), or amend the constitution or an
+  addendum.
 
 An approval covers the action it names, once. It does not extend to later actions of the same kind.
 
-*Why*: the owner carries the consequences, so the owner makes the irreversible and outward-facing calls.
-*Check*: review: every commit, tag and production deploy follows an owner command.
+Within a task, agents commit and push to the task's branch, and MAY open a pull request, without a
+separate command. Nobody pushes to `main` directly (CORE-63).
+
+*Why*: the owner carries the consequences, so the owner makes the irreversible and outward-facing calls;
+everything that git can undo stays fast.
+*Check*: review: every merge, tag and production deploy follows an owner command.
 
 ### CORE-12 · Secrets and access · NON-NEGOTIABLE
 
 - Secrets come only from the environment or a secret store. They never appear in git, logs, error
   messages, build arguments, images, test fixtures, reports or chat output. Build-time secrets use
   secret mounts.
-- `.env` files are git-ignored. One template per environment is committed (for example `.env.example`
-  and `.env.prod.example`). It lists every variable without secret values and marks the variables that
-  must not be set by hand.
+- `.env` files are git-ignored; only their templates are committed (CORE-24).
 - Production secrets have no default values. A missing required variable stops start-up, naming the
   variable.
 - Every surface (pages, APIs, files, admin tools) requires authentication unless the spec lists it as
@@ -292,61 +264,61 @@ An approval covers the action it names, once. It does not extend to later action
 - Agents never receive production credentials (CORE-82).
 
 *Why*: one leaked secret or one open endpoint undoes every other rule.
-*Check*: secret scanning in CI (CORE-62); env templates and the list of public surfaces are reviewed with
-every change that touches them.
+*Check*: secret scanning in CI (CORE-62); the list of public surfaces is reviewed with every change that
+touches it.
 
 ### CORE-13 · Data integrity · NON-NEGOTIABLE
 
-- A database schema changes only through versioned migrations of its single owner (CORE-40). No manual
-  DDL or DML in the production environment.
+- A database schema changes only through versioned migrations of its single owner (CORE-40).
+- Nobody types DDL or DML into a production database. A one-off data fix is a committed data migration
+  or script, run through the deploy or by the owner, after a fresh backup of the data it changes.
 - Production data is deleted, reset or overwritten in bulk only on the owner's command (CORE-11), and
   only after a fresh backup of that data exists outside the place being changed. The agent names the
   data and the effect first (CORE-81).
 
 *Why*: data loss is the one failure that a redeploy cannot fix.
-*Check*: migrations are the only schema changes in git history; plans that delete data name their
-backup.
+*Check*: migrations are the only schema changes in git history; every data fix is a commit; plans that
+delete data name their backup.
 
 ## Architecture
 
 ### CORE-20 · Ownership and boundaries
 
 - Every component (app, service, package) has one stated responsibility and owns its state. Another
-  component's database is not an API; access across components goes through a documented contract.
-- The direction of dependencies is documented (for example in `docs/architecture.md`) and enforced by
-  lint rules or tests. There are no import cycles.
-- Shared packages are extracted only for real reuse. No shared library holds business logic of
-  unrelated domains, and there is no catch-all `utils` package.
+  component's database is not an API; access across components goes through a contract (CORE-30).
+- There are no import cycles between packages or modules.
+- SHOULD: a lint rule enforces the direction of dependencies inside a package. Shared packages are
+  extracted only for real reuse, and there is no catch-all `utils` package.
 
 *Why*: clear ownership keeps changes local and makes agents' edits predictable.
-*Check*: an import-boundary lint rule or test fails on a forbidden dependency.
+*Check*: the build or a lint rule fails on an import cycle.
 
-### CORE-21 · Pure core, I/O at the edges
+### CORE-21 · Side effects at the edges
 
-- Domain logic does no network, file, database or process I/O, and does not read the clock, randomness
-  or the environment directly. Time, identifiers and randomness are injected.
-- Adapters (database, HTTP, queues, vendors) implement ports that the core defines. One composition root
-  per executable wires them.
-- The same core runs in tests and in production.
-- External vendors (AI, payments, storage, messaging) sit behind interfaces. No production path silently
-  falls back to a fake, a stub or a dry run. A mode with external side effects (orders, payments,
-  outgoing messages) is switched on explicitly.
+- No production path silently falls back to a fake, a stub or a dry run. A mode with external side
+  effects (orders, payments, outgoing messages) is switched on explicitly.
+- External vendors (AI, payments, storage, messaging) sit behind an interface of the project's own, so
+  that tests run without them and a vendor can be replaced in one place.
+- SHOULD: domain logic with real rules (calculations, state machines, policies) does no I/O and gets
+  time, randomness and identifiers injected, so that the same code runs in tests and in production.
+  Plain data access MAY call the database directly from server code.
 
-*Why*: a pure core is testable without infrastructure and behaves the same everywhere.
-*Check*: core packages import no I/O libraries; tests run the core without network access.
+*Why*: side effects that hide inside logic make it untestable, and a silent fake in production looks
+like success.
+*Check*: tests run without network access to vendors; every mode with external side effects has an
+explicit switch.
 
 ### CORE-22 · Simplicity
 
-- Build what the spec needs now. No speculative frameworks, plugin systems or abstractions with a single
-  implementation, unless the spec requires the extension point.
-- A new dependency is justified in the plan: what it does, and why the standard library or an existing
-  dependency does not suffice.
+- SHOULD: build what the spec needs now. No speculative frameworks, plugin systems or abstractions with a
+  single implementation, unless the spec requires the extension point (the vendor interfaces of CORE-21
+  are expected).
 - An optimisation is claimed only with a measurement against a baseline on the same data and resources.
-  Profiling comes before a complex rewrite. A fast path that replaces a reference path gives results
-  equal to it, checked by a test.
+  A fast path that replaces a reference path gives results equal to it, checked by a test.
+- SHOULD: profiling comes before a complex rewrite.
 
 *Why*: agents add structure quickly; every layer must pay for itself.
-*Check*: plans list new dependencies with reasons; optimisation claims cite their measurement.
+*Check*: optimisation claims cite their measurement.
 
 ### CORE-23 · One source for derived artifacts
 
@@ -364,11 +336,15 @@ backup.
 - URLs, credentials, paths, limits, timeouts and feature switches come from configuration, read and
   validated once at start-up into a typed object. Start-up fails on a missing or empty required value,
   naming the variable but not its value.
-- There are no magic constants. A tunable number has a name and lives in configuration or in a
-  constants module, with its reason.
+- Every variable the application reads is listed without its secret value in a committed template per
+  environment (for example `.env.example` and `.env.prod.example`), or in DEPLOY.md where a secret store
+  injects the variables. The list marks the variables that must not be set by hand.
+- SHOULD: no magic constants. A tunable number has a name and lives in configuration or in a constants
+  module, with its reason.
 
 *Why*: behaviour that depends on configuration must be visible in one place and fail early.
-*Check*: no direct environment reads outside the configuration module.
+*Check*: no direct environment reads outside the configuration module; the template lists every variable
+that module reads.
 
 ### CORE-25 · Least privilege
 
@@ -383,15 +359,15 @@ backup.
 
 ### CORE-30 · Contracts at boundaries
 
-- HTTP and RPC APIs, events, queue messages and exchanged files are contracts. Each has an owner and a
-  description in a contract document: the `contracts/` folder of the feature that introduced or last
-  changed it.
+- HTTP and RPC APIs, events, queue messages and exchanged files are contracts. Each has an owner and
+  one current description, derived from code where possible (schemas, generated OpenAPI documents or
+  clients; CORE-23). A feature's `contracts/` folder describes the change the feature makes.
 - Queue and event payloads and file formats carry a format version.
 - *(production)* Removing a field or changing its meaning needs a compatible transition: add the new
   form first, move the consumers, remove the old form last.
 
 *Why*: the other side of a boundary cannot see the code that changed.
-*Check*: a change to a boundary changes its contract document in the same change.
+*Check*: a change to a boundary changes its description in the same change.
 
 ## Data
 
@@ -423,7 +399,8 @@ backup.
 
 - Instants are stored as `timestamptz` in UTC and converted to a time zone only for display.
 - Domain-local dates and calendars (trading days, business days) name their time zone in the addendum.
-- Tests pin the process time zone to UTC and inject the clock (CORE-21).
+- Tests pin the process time zone to UTC. Code whose behaviour depends on the current time gets the
+  clock injected (CORE-21).
 
 *Why*: time zone bugs hide until a server moves or the clocks change.
 *Check*: no `timestamp without time zone` columns for instants; test configs set `TZ=UTC`.
@@ -461,8 +438,7 @@ backup.
 - A service that writes to its database and publishes to an external broker uses a transactional
   outbox: the data and the outgoing message commit in one transaction, and a relay publishes
   afterwards. A job table in the same database needs no outbox.
-- The addendum declares the technology: a PostgreSQL job table for small loads, RabbitMQ when a broker
-  is needed, or another. The JOBS module gives the patterns.
+- The JOBS module gives the default technology, its rules and its recipes.
 
 *Why*: jobs fail, repeat and overlap; the system must stay correct when they do.
 *Check*: a handler test delivers the same job twice and sees one effect.
@@ -471,8 +447,8 @@ backup.
 
 - Every long-lived HTTP service exposes liveness (`/healthz` or `/health`) and readiness (`/readyz`).
   Readiness checks the database and the expected migration; optional integrations do not fail it.
-  Neither response discloses internals beyond the commit and the schema version (DOKPLOY-06). Every
-  other long-lived service has a command-based health check (for example a fresh heartbeat).
+  Neither response discloses internals beyond the commit and the schema version. Every other long-lived
+  service has a command-based health check (for example a fresh heartbeat).
 - On stop, a service stops accepting work, finishes or releases active work within a time budget, and
   closes its dependencies. The container's stop grace period is longer than the budget.
 - Outgoing calls have timeouts, validate the response and retry a bounded number of times.
@@ -516,33 +492,40 @@ feature's quickstart.
 *Why*: "works on my machine" usually means two versions of one tool.
 *Check*: CI and Dockerfiles read the versions from the pin files, or a CI step compares them.
 
-### CORE-61 · Dependency updates
+### CORE-61 · Dependencies
 
-- Updates come from Renovate or Dependabot, or are done by hand the same way: a commit or pull request of
-  its own that runs the full gate.
+- An agent adds a library without asking when all of these hold: it covers a need that no default and
+  no existing dependency covers; it is maintained (a release within the last year, or a small stable
+  library without open security advisories); its license is permissive (MIT, BSD, ISC, Apache-2.0 or
+  similar) or compatible with the project's; the installed version is past the minimum release age. The
+  pull request names the library and its purpose in one line.
+- Replacing a default, or adding a second library for a role that one already fills (a second ORM,
+  schema library, logger, test runner, date or HTTP library), is an owner decision recorded in the
+  addendum's parameters (CORE-02).
 - A package version is installed only after a minimum release age of at least one day (for example
   `minimumReleaseAge: 1440`, in minutes, in pnpm; `minimumReleaseAge` in Renovate).
-- A major-version update is a task of its own, not part of a feature.
+- Updates come from Renovate or Dependabot, or are made by hand the same way: a commit or pull request of
+  its own that runs the full gate. A major-version update is a task of its own, not part of a feature.
 
-*Why*: freshly published packages are the usual vector of supply-chain attacks.
-*Check*: the package-manager and bot configuration set the release age.
+*Why*: adding a library should take a minute; two libraries for one job and freshly published packages
+are what cost later.
+*Check*: the package-manager and bot configuration set the release age; pull requests name the libraries
+they add.
 
 ### CORE-62 · CI gate
 
 - Every project with a remote repository runs CI on every push to `main` and on every pull request.
 - The base gate, required in every stage: install from the lock file; lint; format check; typecheck;
-  tests, with integration tests against a real database service and never skipped silently; build; the
-  gate steps of the applied modules (TS-04, PY-02, GO-03, FL-02); secret scanning of the commits that
-  the push or pull request adds (for example gitleaks), which fails on any finding; dependency audits
-  (`pnpm audit`, `pip-audit`, `govulncheck`) and, where the repository builds images, an image scan
-  (for example trivy). Audit and scan findings are reported; apart from secrets, they fail only
-  production release builds. A secret found in older history is rotated and recorded in the
-  addendum's Sync Impact Report (CORE-12).
-- SHOULD: one entry point (for example `pnpm check` or `scripts/check.sh`) runs the same steps
-  locally, in Docker and in CI.
+  tests, with integration tests against a real database service where the project has a database, never
+  skipped silently; build; the gate steps of the applied modules (TS-04, PY-02, GO-03, FL-02); secret
+  scanning of the commits that the push or pull request adds (for example gitleaks), which fails on any
+  finding. A secret found in older history is rotated and recorded in the addendum's change log
+  (CORE-12).
+- SHOULD: one entry point (for example `pnpm check`) runs the same steps locally, in Docker and in CI.
 - *(production)* The gate also applies all migrations to a clean database and fails on drift between the
-  schema and its migrations, and runs e2e tests of the critical user flows. High or critical findings of
-  audits and image scans fail the release build.
+  schema and its migrations; runs e2e tests of the critical user flows; and runs dependency audits
+  (`pnpm audit`, `pip-audit`, `govulncheck`) and, where the repository builds images, an image scan (for
+  example trivy). High or critical findings of audits and image scans fail the release build.
 
 *Why*: the gate is the evidence that CORE-10 asks for, produced the same way every time.
 *Check*: the CI workflow contains these steps; `main` requires them where the hosting plan allows
@@ -550,14 +533,15 @@ branch protection (CORE-63).
 
 ### CORE-63 · Git and pull requests
 
-- One branch per feature, named `NNN-slug` as spec-kit names it.
-- Changes reach `main` through a pull request, merged only with a green CI.
+- A feature uses one branch, named `NNN-slug` as spec-kit names it. Other work uses a short descriptive
+  branch name (for example `fix/login-redirect` or `deps/prisma-7`).
+- Changes reach `main` through a pull request, merged on the owner's command (CORE-11) and only with a
+  green CI.
 - A commit message says what changed and why.
 - No force-push to `main`.
 - Where the hosting plan allows it, branch protection on `main` requires the CI checks and blocks
   force-pushes. Where it does not (for example private repositories on GitHub Free), these bullets hold
-  by discipline: a pull request is merged only on the owner's command (CORE-11) and only when its CI is
-  green.
+  by discipline.
 
 *Why*: history is the project's memory; it must stay readable and true.
 *Check*: branch protection on `main` where available; otherwise every merged pull request shows a
@@ -577,32 +561,37 @@ green CI.
 
 ### CORE-70 · Spec-kit workflow
 
+- A feature (a new capability, or a change of behaviour that needs design) goes through spec-kit. The
+  stages are specify, clarify, plan, tasks and implement. Each starts on the owner's command (CORE-11).
+  Other spec-kit commands that change files (for example checklist) also start on the owner's command;
+  read-only ones (for example analyze) need none.
+- Other work (fixes, small changes the owner asks for directly, dependency updates, docs, chores) goes
+  straight to a pull request whose description says what changed, why, and what was checked (CORE-10).
+  When it is unclear whether a change is a feature, the agent asks the owner.
 - Features live in `specs/NNN-slug/` (spec.md, plan.md, research.md, data-model.md, contracts/,
   quickstart.md, checklists/, tasks.md). `.specify/feature.json` points to the active feature.
-- The stages are specify, clarify, plan, tasks and implement. Each starts on the owner's command
-  (CORE-11). Other spec-kit commands that change files (for example checklist) also start on the
-  owner's command; read-only ones (for example analyze) need none.
 - Tasks include the tests and checks that prove them, and the deploy verification when the feature
   ships. User stories are independent increments.
-- In an existing codebase, a baseline spec records current behaviour. It has no tasks for what already
-  exists.
+- In an existing codebase, a baseline spec MAY record current behaviour. It has no tasks for what
+  already exists.
 
-*Why*: the spec is the shared memory between the owner and the agents.
+*Why*: the spec is the shared memory for work that needs design; small work should not wait for
+paperwork.
 *Check*: every merged feature has its folder; tasks.md contains test and verification tasks.
 
 ### CORE-71 · Constitution Check and Complexity Tracking
 
 - Every plan fills its Constitution Check before research and re-checks it after design, in the format
-  of `templates/plan-constitution-check.md`. It lists the NON-NEGOTIABLE rules and every rule the
-  feature touches, how the plan meets each, and a status: Pass; Pass with exception; SHOULD deviation
-  with its reason; Deferred (production), for production-only rules in a development project; Not
-  applicable.
+  of `templates/plan-constitution-check.md`. It states how the plan meets each NON-NEGOTIABLE rule, then
+  lists only the rules the plan does not meet as written, each as an exception or as a SHOULD deviation
+  with its reason. A rule that is not listed is met. In a development project, production-only rules
+  are left out.
 - Every exception has a Complexity Tracking row (CORE-03).
 - Where a spec-kit template contradicts the constitution (for example "tests are optional"), the
   constitution wins. Templates are not patched locally, because spec-kit upgrades overwrite them.
 
-*Why*: the plan is the cheapest moment to find a conflict with the rules.
-*Check*: no plan is approved with an empty Constitution Check.
+*Why*: the plan is the cheapest moment to find a conflict with the rules, and a short check gets read.
+*Check*: no plan is approved without its NON-NEGOTIABLE rows.
 
 ### CORE-72 · Documentation with the change
 
@@ -629,7 +618,7 @@ green CI.
 - Committed: `.specify/` (including the constitution submodule), `specs/`, AGENTS.md, CLAUDE.md,
   `.claude/skills/` and `.claude/settings.json`.
 - Not committed: `.claude/settings.local.json`, agent memory, `.env` files other than the templates of
-  CORE-12, build output, and generated output that its module keeps out of git (CORE-23).
+  CORE-24, build output, and generated output that its module keeps out of git (CORE-23).
 - Temporary scripts, scratch files and verification artifacts are deleted before the work is reported
   done, or are kept outside the repository.
 
@@ -654,17 +643,20 @@ green CI.
 ### CORE-81 · Risk tiers
 
 - Read-only work (reading, searching, running checks that change nothing) needs no approval.
-- Changes within the current task need the task: an owner request, or a task of the tasks.md whose
-  implementation the owner started.
-- These areas need an explicit owner command that names the change, even when a task covers them:
-  database schema and migrations; authentication, sessions and permissions; infrastructure, CI and
-  deploy configuration; public contracts (CORE-30); deletion or bulk change of data; the constitution
-  and the addendum. The agent asks before starting such a change and names it; one confirmation MAY
-  cover several changes it names.
-- Before a destructive action (deleting files or data, resetting state, rewriting history, dropping
-  tables), the agent names the action and its effect and waits for confirmation.
+- Changes within the current task need only the task: an owner request, or a task of the tasks.md whose
+  implementation the owner started. This covers adding, editing and deleting tracked files, adding
+  libraries (CORE-61), and committing and pushing to the task's branch (CORE-11).
+- *(production)* These areas need an explicit owner command that names the change, even when a task
+  covers them: database schema and migrations; authentication, sessions and permissions;
+  infrastructure, CI and deploy configuration; public contracts (CORE-30). The agent asks before
+  starting such a change and names it; one confirmation MAY cover several changes it names.
+- In every stage, deleting or changing production data in bulk (CORE-13) and changing the constitution
+  or the addendum need an explicit owner command that names the change.
+- Before an irreversible action (deleting untracked files or uncommitted work, deleting or resetting
+  data, rewriting pushed history, dropping tables), the agent names the action and its effect and waits
+  for confirmation. Deleting tracked files within the task is not irreversible: git keeps them.
 
-*Why*: most of the damage an agent can do is concentrated in a few areas.
+*Why*: most of the damage an agent can do is concentrated in a few areas; everything else should flow.
 *Check*: changes in these areas follow a named confirmation from the owner.
 
 ### CORE-82 · Agent security
@@ -684,8 +676,9 @@ green CI.
 
 ## Retired IDs
 
-None.
+Retired in 2.0.0; their content became recipes of their modules: FL-01, GO-01, JOBS-05, LLM-04, PY-04,
+PY-07.
 
 ---
 
-**Version**: 1.0.4 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-06
+**Version**: 2.0.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11

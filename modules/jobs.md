@@ -1,8 +1,19 @@
 # Module JOBS: Background jobs and messaging
 
 Applies to projects with background jobs (CORE-50). Part of the Engineering Constitution; the version is
-in `core.md`. Rule format and levels follow the core (CORE-02): a bullet without SHOULD, SHOULD NOT or
-MAY is a MUST.
+in `core.md`. Defaults, rules and recipes are used as CORE-02 defines them: a bullet without SHOULD,
+SHOULD NOT or MAY is a MUST.
+
+## Defaults
+
+The addendum copies this table into its module parameters and keeps or replaces each value (CORE-06).
+
+| Parameter | Default |
+|---|---|
+| Job technology | a PostgreSQL job table (JOBS-01); RabbitMQ with an outbox (JOBS-02) when a broker is needed |
+| Worker wake-up | `LISTEN/NOTIFY`, with polling as the fallback |
+
+## Rules
 
 ### JOBS-01 · PostgreSQL job table
 
@@ -10,8 +21,6 @@ MAY is a MUST.
   Lease expiry is computed from the database clock. A job whose lease has expired can be claimed again.
 - Each claim increments a fencing token. Result writes and state changes are conditional on the token
   still matching, so a worker that lost its lease cannot commit a stale result.
-- A job row records at least: state, attempt count and maximum, lease expiry, fencing token, progress,
-  cancel request, idempotency key (unique), timestamps and the last error.
 - A job is enqueued in the same transaction as the data change that requests it.
 - Cancelling is cooperative: the worker checks for a cancel request between steps and records the
   outcome.
@@ -54,10 +63,10 @@ old worker's late write rejected.
 *Why*: producers and consumers are deployed at different times.
 *Check*: a consumer test rejects a payload with an unknown version as described.
 
-### JOBS-05 · Wake-ups
+## Recipes
 
-- SHOULD: a notification (for example `LISTEN/NOTIFY` or a broker message) wakes the workers, and polling
-  is the fallback. An unavailable notification channel never stops the work.
-
-*Why*: notifications are fast but not guaranteed.
-*Check*: a test disables notifications and sees jobs processed by polling.
+- **Job row.** A job row records at least: state, attempt count and maximum, lease expiry, fencing
+  token, progress, cancel request, idempotency key (unique), timestamps and the last error.
+- **Wake-ups.** A notification (`LISTEN/NOTIFY` or a broker message) wakes the workers, and polling is
+  the fallback: notifications are fast but not guaranteed, so an unavailable notification channel must
+  never stop the work. A test disables notifications and sees jobs processed by polling.
