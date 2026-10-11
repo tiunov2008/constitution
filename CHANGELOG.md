@@ -3,6 +3,17 @@
 One entry per version, newest first (CORE-04). A project that moves its pin reads every entry between
 its old and its new version (CORE-05).
 
+## 2.0.1 (2026-10-11, PATCH, owner command)
+
+- quickstart.md: a new project is a copy of the starter in a new history, made with `gh repo clone`, and
+  `scripts/init-project.mjs` adds the constitution submodule at the pinned version; step 6 creates the
+  GitHub repository. The definition of Starter in core.md says the same.
+- Reason: a repository generated from the starter with "Use this template" stayed empty for more than
+  eight minutes, and GitHub templates do not reliably carry submodules. The same check found two traps
+  that the starter now handles: `next dev` moving to another port, which broke sign-in, and Windows path
+  limits in the submodule clone.
+- When moving the pin: nothing required.
+
 ## 2.0.0 (2026-10-11, MAJOR, owner command)
 
 The constitution becomes a fast start on the ready stack plus the rules that keep projects cheap to

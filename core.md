@@ -29,7 +29,7 @@ addendum.
   applies when the project's addendum lists it (CORE-06).
 - **Addendum**: the project's own part, kept in the project's `.specify/memory/constitution.md`
   (template: `templates/project-constitution.md`).
-- **Starter**: the template repository a new project is created from (`quickstart.md`). It meets the
+- **Starter**: the repository a new project is copied from (`quickstart.md`). It meets the
   rules and uses the defaults of the core and of the modules it includes.
 - **Stage**: `development` or `production`, a property of the project declared in its addendum
   (CORE-07).
@@ -681,4 +681,4 @@ PY-07.
 
 ---
 
-**Version**: 2.0.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11
+**Version**: 2.0.1 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11

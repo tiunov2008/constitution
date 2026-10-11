@@ -10,16 +10,19 @@ the images and deploys them through the Dokploy API, a Dockerfile and `docker-co
 Dokploy, DEPLOY.md, AGENTS.md and CLAUDE.md, spec-kit, and this constitution as a submodule with a
 filled entry file.
 
-1. Create the repository from the template and fetch the submodule:
+1. Copy the starter into a new history (in Git Bash on Windows). GitHub's "Use this template" is not
+   used: a repository generated from the template stayed empty, and templates do not reliably carry the
+   submodule.
 
    ```sh
-   gh repo create <name> --template tiunov2008/starter --private --clone
+   gh repo clone tiunov2008/starter <name> -- --depth 1
    cd <name>
-   git submodule update --init
+   rm -rf .git && git init -b main
    ```
 
-2. Give it the project's name and rule prefix. The script renames the `@starter/*` packages and fills the
-   name and prefix into the entry file, AGENTS.md and the docs:
+2. Give it the project's name and rule prefix. The script adds the constitution submodule at the pinned
+   version, renames the `@starter/*` packages, and fills the name and prefix into the entry file,
+   AGENTS.md and the docs:
 
    ```sh
    node scripts/init-project.mjs <name> <PREFIX>
@@ -44,9 +47,17 @@ filled entry file.
 
 5. Fill the open parameters of the entry file `.specify/memory/constitution.md`: the identifier scheme,
    the artifact language, and any default the project replaces (CORE-06).
-6. Commit and push. CI runs the gate and the pin check and publishes the images. To deploy, follow the
-   project's DEPLOY.md: one Dokploy compose application per environment, the registry's read token in
-   Dokploy, and four variables per GitHub environment; until they are set, CI skips the deploys.
+6. Commit, create the GitHub repository and push. CI runs the gate and the pin check and publishes the
+   images:
+
+   ```sh
+   git add -A && git commit -m "Start <name> from the starter"
+   gh repo create <name> --private --source . --push
+   ```
+
+   To deploy, follow the project's DEPLOY.md: one Dokploy compose application per environment, the
+   registry's read token in Dokploy, and four variables per GitHub environment; until they are set, CI
+   skips the deploys.
 7. Start the first feature with `/speckit-specify` (CORE-70). Fixes and small changes go straight to a
    pull request.
 

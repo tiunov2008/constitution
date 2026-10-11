@@ -4,13 +4,13 @@ Start a project on the owner's stack in minutes and keep it cheap to change: Typ
 (Turborepo, pnpm, Next.js, Prisma, Better Auth, Tailwind CSS), PostgreSQL and Dokploy, with Python, Go
 and Flutter where needed, spec-kit as the process and AI agents as developers.
 
-Status: **v2.0.0**, ratified by the owner on 2026-10-04, last amended on 2026-10-11. Changes are in
+Status: **v2.0.1**, ratified by the owner on 2026-10-04, last amended on 2026-10-11. Changes are in
 `CHANGELOG.md`.
 
 ## Start here
 
-- A new project: `quickstart.md`. Create it from the starter template
-  (https://github.com/tiunov2008/starter), rename it, run `pnpm check`.
+- A new project: `quickstart.md`. Copy the starter (https://github.com/tiunov2008/starter), run
+  `scripts/init-project.mjs`, run `pnpm check`.
 - An existing project: `quickstart.md`, "Adopting the constitution in an existing project".
 
 ## How it is built
