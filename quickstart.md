@@ -7,7 +7,7 @@ the defaults of the core and of the modules ts and dokploy: Turborepo and pnpm, 
 Tailwind CSS and a sign-in page, Prisma with PostgreSQL, Better Auth with public sign-up off, pino,
 Vitest with isolated integration tests, health and readiness endpoints, CI that runs the gate, publishes
 the images and deploys them through the Dokploy API, a Dockerfile and `docker-compose.prod.yml` for
-Dokploy, DEPLOY.md, AGENTS.md and CLAUDE.md, spec-kit, and this constitution as a submodule with a
+Dokploy, `docs/DEPLOY.md`, AGENTS.md and CLAUDE.md, spec-kit, and this constitution as a submodule with a
 filled entry file.
 
 1. Copy the starter into a new history (in Git Bash on Windows). GitHub's "Use this template" is not
@@ -55,7 +55,7 @@ filled entry file.
    gh repo create <name> --private --source . --push
    ```
 
-   To deploy, follow the project's DEPLOY.md: one Dokploy compose application per environment, the
+   To deploy, follow the project's `docs/DEPLOY.md`: one Dokploy compose application per environment, the
    registry's read token in Dokploy, and four variables per GitHub environment; until they are set, CI
    skips the deploys.
 7. Start the first feature with `/speckit-specify` (CORE-70). Fixes and small changes go straight to a

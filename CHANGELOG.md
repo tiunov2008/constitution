@@ -3,6 +3,14 @@
 One entry per version, newest first (CORE-04). A project that moves its pin reads every entry between
 its old and its new version (CORE-05).
 
+## 2.1.0 (2026-10-11, MINOR, owner command)
+
+- The deployment runbook DEPLOY.md lives in `docs/DEPLOY.md` instead of the repository root (the
+  definition in core.md; the rules that name DEPLOY.md are unchanged). quickstart.md says the same.
+- Reason: owner decision.
+- When moving the pin: `git mv DEPLOY.md docs/DEPLOY.md` and update the links to it (AGENTS.md, README,
+  CI notices).
+
 ## 2.0.1 (2026-10-11, PATCH, owner command)
 
 - quickstart.md: a new project is a copy of the starter in a new history, made with `gh repo clone`, and

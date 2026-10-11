@@ -36,7 +36,7 @@ addendum.
 - **Production environment**: the deployment that real users or the owner rely on. **Test environment**:
   a deployment that holds no production data and no production secrets.
 - **Production data**: data that real users or the owner rely on, in any environment.
-- **DEPLOY.md**: the project's deployment runbook at the repository root (CORE-53).
+- **DEPLOY.md**: the project's deployment runbook, kept at `docs/DEPLOY.md` (CORE-53).
 - **MUST, MUST NOT, SHOULD, SHOULD NOT, MAY**: as in RFC 2119, with the consequences set by CORE-02.
 
 Each rule has an ID and a title. A bullet without SHOULD, SHOULD NOT or MAY is a MUST. *Why* gives the
@@ -681,4 +681,4 @@ PY-07.
 
 ---
 
-**Version**: 2.0.1 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11
+**Version**: 2.1.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11
