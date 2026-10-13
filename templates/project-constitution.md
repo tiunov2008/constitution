@@ -59,6 +59,7 @@ or write the project's choice; replacing a default is an owner decision (CORE-02
 | ts | Styling | Tailwind CSS |
 | ts | Database access and migrations | Prisma |
 | ts | Authentication | Better Auth in `@<project>/auth` |
+| ts | Authorization | CASL with `@casl/prisma` in `@<project>/authz` |
 | ts | Schema library | zod |
 | ts | Logger | pino |
 | ts | Test runner | Vitest; Playwright for e2e |
