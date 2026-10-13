@@ -4,7 +4,7 @@ Start a project on the owner's stack in minutes and keep it cheap to change: Typ
 (Turborepo, pnpm, Next.js, Prisma, Better Auth, Tailwind CSS), PostgreSQL and Dokploy, with Python, Go
 and Flutter where needed, spec-kit as the process and AI agents as developers.
 
-Status: **v2.1.0**, ratified by the owner on 2026-10-04, last amended on 2026-10-11. Changes are in
+Status: **v2.2.0**, ratified by the owner on 2026-10-04, last amended on 2026-10-13. Changes are in
 `CHANGELOG.md`.
 
 ## Start here
@@ -33,7 +33,7 @@ Project rules use the project's prefix, such as `<PREFIX>-03`.
 |---|---|
 | `quickstart.md` | A new project from the starter; adoption in an existing project; moving to a newer version |
 | `core.md` | Rules for every project: governance, the NON-NEGOTIABLE rules, architecture, contracts, data, operations, toolchain and CI, process, agents |
-| `modules/ts.md` | TypeScript monorepo: Turborepo, pnpm, Next.js, Tailwind CSS, Prisma, Better Auth, tests |
+| `modules/ts.md` | TypeScript monorepo: Turborepo, pnpm, Next.js, Tailwind CSS, Prisma, Better Auth, CASL, data access, tests |
 | `modules/dokploy.md` | Docker images, compose files, hardening, releases and backups on Dokploy |
 | `modules/python.md` | Python services: uv, ruff, typed settings, database access |
 | `modules/go.md` | Go services: errors, context, gate, versions |

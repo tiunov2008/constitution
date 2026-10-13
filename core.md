@@ -681,4 +681,4 @@ PY-07.
 
 ---
 
-**Version**: 2.1.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-11
+**Version**: 2.2.0 | **Ratified**: 2026-10-04 | **Last Amended**: 2026-10-13

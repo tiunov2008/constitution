@@ -3,6 +3,44 @@
 One entry per version, newest first (CORE-04). A project that moves its pin reads every entry between
 its old and its new version (CORE-05).
 
+## 2.2.0 (2026-10-13, MINOR, owner command)
+
+- New rule TS-13 "Data access and authorization", for apps where some user may not read some records or
+  fields: the authorization rules are declared once and every permission check asks them about the
+  record; the visibility filters of queries are derived from them, and a hand-written query twin of a
+  rule comes with a test that holds it equal to the rule; a filter or search on a field matches only
+  where the field is readable; only the data-access layer and the code the addendum lists import the
+  database client, enforced by a lint rule; the browser gets fields built for it alone, checked per role
+  by a payload test. SHOULD: a client extension built for the acting user applies the row filter to
+  every top-level query of a protected model and refuses the reads it cannot filter.
+- TS-13 narrows the MAY of CORE-21 (plain data access from server code) for TypeScript apps in its
+  scope, and makes CORE-20's lint SHOULD a MUST for value imports of the database client. TS-07 now
+  says which invariants it means by tenant scoping (a tenant column every row carries); authorization
+  filters that depend on roles, state or relations follow TS-13.
+- New TS default: CASL (`@casl/ability`) with `@casl/prisma` for authorization, in `@<project>/authz`,
+  also in the template's module parameters. New recipes: CASL with Prisma, where memory and SQL
+  disagree, empty rules and `createCaslExtension()`, Prisma 7's `prisma-client` generator, the rules
+  package, field-aware filters, comparison tests, field lists, the scoped client, payload tests.
+- Reason: in a project whose policy was right, a list page sent every row's company ids to the browser
+  next to the names a filter offered, so a cell that showed a dash still gave the company away; a
+  company filter matched rows whose company the account could not read; and a hand-written query twin
+  of a policy rule was wider than the rule. All three passed review and tests, because nothing tied the
+  query to the rule or checked what left the server.
+- When moving the pin: add the Authorization row to the module parameters (keep CASL, or name the
+  project's library: an owner decision, CORE-02). Record each gap as a task or a standing exception
+  (CORE-05): permission checks that ask a conditional rule about the type alone; database-client value
+  imports outside the listed paths; data-access functions without the acting user; filters and searches
+  on fields the row may withhold; what the browser gets built from whole rows or from rows selected for
+  server logic; pages, actions and route handlers that send protected data without a payload test per
+  role; hand-written row filters without a comparison test. With CASL on `createMongoAbility`, write the
+  comparison test for each hand-written filter first; the move to `createPrismaAbility` and
+  `accessibleBy` is a task of its own (it rewrites every condition and moves the rules to a package that
+  depends on the database package and that no client component imports). Where a list shows rows that
+  its `read` rule does not cover, deriving the list's filter from `read` changes the list and needs the
+  owner (CORE-11). A project without the scoped client records the SHOULD deviation with its reason
+  (CORE-02); with it, every protected model the client covers needs rules first. The starter adopts
+  TS-13 in a change of its own.
+
 ## 2.1.0 (2026-10-11, MINOR, owner command)
 
 - The deployment runbook DEPLOY.md lives in `docs/DEPLOY.md` instead of the repository root (the
